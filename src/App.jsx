@@ -1,39 +1,25 @@
 import React, { useEffect, useState } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import Header from './components/Header.jsx';
 import SearchResults from './components/SearchResults.jsx';
 import Library from './components/Library.jsx';
+import SearchBar from './components/SearchBar.jsx';
+import SongDetail from './components/SongDetail.jsx';
+import useFetch from './hooks/useFetch';
 import './App.css';
 
-const initialSearchResults = [
-  {
-    id: 1,
-    title: 'Como la Flor',
-    artist: 'Selena',
-    album: 'Amor Prohibido',
-    duration: '3:05',
-    cover: '🎵'
-  },
-  {
-    id: 2,
-    title: 'Bailando',
-    artist: 'Enrique Iglesias',
-    album: 'Insomniac',
-    duration: '4:00',
-    cover: '🎶'
-  },
-  {
-    id: 3,
-    title: 'Ella Baila Sola',
-    artist: 'Eslabon Armado',
-    album: 'Tu Veneno Mortal',
-    duration: '3:33',
-    cover: '💖'
-  }
-];
-
 function App() {
-  const [searchResults] = useState(initialSearchResults);
+  const [searchTerm, setSearchTerm] = useState('');
   const [library, setLibrary] = useState([]);
+  const [addedSongId, setAddedSongId] = useState(null);
+
+  const searchUrl = searchTerm
+    ? `https://theaudiodb.com/api/v1/json/2/searchalbum.php?s=${encodeURIComponent(
+        searchTerm
+      )}`
+    : null;
+
+  const { data, loading, error, refetch } = useFetch(searchUrl);
 
   useEffect(() => {
     console.log('La app se ha cargado correctamente.');
@@ -45,17 +31,24 @@ function App() {
 
   const handleAddToLibrary = (song) => {
     setLibrary((prevLibrary) => {
-      const alreadySaved = prevLibrary.some(
-        (item) => item.id === song.id
-      );
-
-      if (alreadySaved) {
-        return prevLibrary;
-      }
-
+      const alreadySaved = prevLibrary.some((item) => item.id === song.id);
+      if (alreadySaved) return prevLibrary;
+      setAddedSongId(song.id);
+      window.setTimeout(() => setAddedSongId(null), 700);
       return [...prevLibrary, song];
     });
   };
+
+  const albums = data?.album || [];
+
+  const songsFromAlbums = albums.map((a) => ({
+    id: a.idAlbum,
+    title: a.strAlbum,
+    artist: a.strArtist,
+    album: a.strAlbum,
+    duration: a.intDuration || '',
+    cover: a.strAlbumThumb || '🎵'
+  }));
 
   return (
     <div className="app">
@@ -63,14 +56,34 @@ function App() {
 
       <main className="dashboard">
         <div className="columns">
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <>
+                  <SearchBar onSearch={(t) => setSearchTerm(t)} />
 
-          <SearchResults
-            songs={searchResults}
-            onAddSong={handleAddToLibrary}
-          />
+                  {loading && <p>Cargando...</p>}
+                  {error && (
+                    <div>
+                      <p>Hubo un problema al cargar los datos. Intenta nuevamente.</p>
+                      <button onClick={refetch}>Reintentar</button>
+                    </div>
+                  )}
 
-          <Library songs={library} />
+                  <SearchResults
+                    songs={songsFromAlbums}
+                    onAddSong={handleAddToLibrary}
+                    addedSongId={addedSongId}
+                  />
 
+                  <Library songs={library} />
+                </>
+              }
+            />
+
+            <Route path="/song/:id" element={<SongDetail />} />
+          </Routes>
         </div>
       </main>
     </div>

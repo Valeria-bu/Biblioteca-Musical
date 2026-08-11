@@ -1,21 +1,23 @@
 .app {
   max-width: 1100px;
-  margin: 0 auto;
-  padding: 24px;
-}
-
-body {
-  background: linear-gradient(135deg, #fff7ed, #ffe4e6 40%, #fdf2f8);
+  margin: 20px auto;
+  padding: 28px;
 }
 
 .dashboard {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 20px;
 }
 
 .columns {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: 1fr 360px;
   gap: 24px;
 }
+
+@media (max-width: 900px){
+  .columns{grid-template-columns: 1fr}
+}
+
+.panel { backdrop-filter: blur(6px); }
