@@ -1,0 +1,14 @@
+.library {
+  background: #e8f5e9;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+.library h2 {
+  margin-top: 0;
+}
+
+.empty-library {
+  color: #666;
+  font-style: italic;
+}

@@ -1,0 +1,8 @@
+.library-panel {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.empty-state {
+  color: #6b7280;
+  font-style: italic;
+}

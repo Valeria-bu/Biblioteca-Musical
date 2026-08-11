@@ -1,0 +1,12 @@
+.panel {
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.panel h2 {
+  margin-top: 0;
+  margin-bottom: 16px;
+  color: #7c2d12;
+}
