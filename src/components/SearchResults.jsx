@@ -1,19 +1,22 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import Song from './Song';
-import './SearchResults.css';
+import {
+  SearchPanel,
+  SearchHeading,
+  ResultList,
+  SearchItem,
+  DetailLink,
+  AddButton
+} from './SearchResults.styles';
 
 function SearchResults({ songs, onAddSong, addedSongId }) {
   return (
-    <section className="panel">
-      <h2>Resultados de búsqueda</h2>
-      <div className="song-list">
+    <SearchPanel>
+      <SearchHeading>Resultados de búsqueda</SearchHeading>
+      <ResultList>
         {songs.map((song) => (
-          <div
-            key={song.id}
-            className={`search-item ${song.id === addedSongId ? 'added' : ''}`}
-          >
-            <Link to={`/song/${song.id}`} className="detail-link">
+          <SearchItem key={song.id} added={song.id === addedSongId}>
+            <DetailLink to={`/song/${song.id}`}>
               <Song
                 title={song.title}
                 artist={song.artist}
@@ -22,18 +25,15 @@ function SearchResults({ songs, onAddSong, addedSongId }) {
                 cover={song.cover}
                 buttonText="Ver detalles"
               />
-            </Link>
+            </DetailLink>
 
-            <button
-              className="add-to-lib"
-              onClick={() => onAddSong(song)}
-            >
+            <AddButton onClick={() => onAddSong(song)}>
               Agregar a mi biblioteca
-            </button>
-          </div>
+            </AddButton>
+          </SearchItem>
         ))}
-      </div>
-    </section>
+      </ResultList>
+    </SearchPanel>
   );
 }
 

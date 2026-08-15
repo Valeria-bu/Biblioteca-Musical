@@ -1,7 +1,7 @@
 import React from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import useFetch from '../hooks/useFetch';
-import './SongDetail.css';
+import { DetailWrapper, BackLink, AlbumImage, TrackList } from './SongDetail.styles';
 
 function SongDetail() {
   const { id } = useParams();
@@ -24,28 +24,26 @@ function SongDetail() {
   if (!album) return <p>No se encontró el álbum.</p>;
 
   return (
-    <section className="song-detail">
-      <Link to="/">← Volver</Link>
+    <DetailWrapper>
+      <BackLink to="/">← Volver</BackLink>
       <h2>{album.strAlbum}</h2>
       <p><strong>Artista:</strong> {album.strArtist}</p>
       <p><strong>Año:</strong> {album.intYearReleased || 'N/A'}</p>
-      {album.strAlbumThumb && (
-        <img src={album.strAlbumThumb} alt={album.strAlbum} />
-      )}
+      {album.strAlbumThumb && <AlbumImage src={album.strAlbumThumb} alt={album.strAlbum} />}
 
       <h3>Canciones</h3>
       {tracks.length === 0 ? (
         <p>No hay canciones listadas.</p>
       ) : (
-        <ol>
+        <TrackList>
           {tracks.map((t) => (
             <li key={t.idTrack || t.track_id || t.track}>
               {t.strTrack || t.track || 'Título desconocido'}
             </li>
           ))}
-        </ol>
+        </TrackList>
       )}
-    </section>
+    </DetailWrapper>
   );
 }
 

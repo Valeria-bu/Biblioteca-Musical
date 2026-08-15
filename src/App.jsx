@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { ThemeProvider } from 'styled-components';
 import Header from './components/Header.jsx';
 import SearchResults from './components/SearchResults.jsx';
 import Library from './components/Library.jsx';
 import SearchBar from './components/SearchBar.jsx';
 import SongDetail from './components/SongDetail.jsx';
 import useFetch from './hooks/useFetch';
-import './App.css';
+import { AppWrapper, AppMain, Columns } from './App.styles';
+import GlobalStyle from './globalStyles';
+import theme from './theme';
 
 function App() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -51,12 +54,14 @@ function App() {
   }));
 
   return (
-    <div className="app">
-      <Header />
+    <ThemeProvider theme={theme}>
+      <GlobalStyle />
+      <AppWrapper>
+        <Header />
 
-      <main className="dashboard">
-        <div className="columns">
-          <Routes>
+        <AppMain>
+          <Columns>
+            <Routes>
             <Route
               path="/"
               element={
@@ -84,9 +89,10 @@ function App() {
 
             <Route path="/song/:id" element={<SongDetail />} />
           </Routes>
-        </div>
-      </main>
-    </div>
+          </Columns>
+        </AppMain>
+      </AppWrapper>
+    </ThemeProvider>
   );
 }
 

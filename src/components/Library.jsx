@@ -1,15 +1,14 @@
-import React from 'react';
 import Song from './Song';
-import './Library.css';
+import { LibraryPanel, LibraryTitle, SongList, EmptyState } from './Library.styles';
 
 function Library({ songs }) {
   return (
-    <section className="panel library-panel">
-      <h2>Mi biblioteca</h2>
+    <LibraryPanel>
+      <LibraryTitle>Mi biblioteca</LibraryTitle>
       {songs.length === 0 ? (
-        <p className="empty-state">Aún no agregaste canciones a tu biblioteca.</p>
+        <EmptyState>Aún no agregaste canciones a tu biblioteca.</EmptyState>
       ) : (
-        <div className="song-list">
+        <SongList>
           {songs.map((song) => (
             <Song
               key={`${song.title}-${song.artist}`}
@@ -22,9 +21,9 @@ function Library({ songs }) {
               disabled={true}
             />
           ))}
-        </div>
+        </SongList>
       )}
-    </section>
+    </LibraryPanel>
   );
 }
 
