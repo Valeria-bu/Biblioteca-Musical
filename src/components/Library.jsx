@@ -1,29 +1,34 @@
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { removeSong } from '../redux/libraryActions';
 import Song from './Song';
-import { LibraryPanel, LibraryTitle, SongList, EmptyState } from './Library.styles';
 
-function Library({ songs }) {
+function Library() {
+  const dispatch = useDispatch();
+  const songs = useSelector((state) => state);
+
   return (
-    <LibraryPanel>
-      <LibraryTitle>Mi biblioteca</LibraryTitle>
+    <section className="panel library-panel">
+      <h2>Mi biblioteca</h2>
       {songs.length === 0 ? (
-        <EmptyState>Aún no agregaste canciones a tu biblioteca.</EmptyState>
+        <p className="empty-state">Aún no agregaste canciones a tu biblioteca.</p>
       ) : (
-        <SongList>
+        <div className="song-list">
           {songs.map((song) => (
             <Song
-              key={`${song.title}-${song.artist}`}
+              key={song.id}
               title={song.title}
               artist={song.artist}
               album={song.album}
               duration={song.duration}
               cover={song.cover}
-              buttonText="Guardada"
-              disabled={true}
+              buttonText="Eliminar"
+              onAction={() => dispatch(removeSong(song.id))}
             />
           ))}
-        </SongList>
+        </div>
       )}
-    </LibraryPanel>
+    </section>
   );
 }
 

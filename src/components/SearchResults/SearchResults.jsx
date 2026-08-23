@@ -1,14 +1,11 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
-import { addSong } from '../redux/libraryActions';
-import Song from './Song';
+import Song from '../Song/Song';
 
-function SearchResults({ songs }) {
-  const dispatch = useDispatch();
-
+function SearchResults({ songs, onAddSong }) {
   return (
     <section className="panel">
       <h2>Resultados de búsqueda</h2>
+
       <div className="song-list">
         {songs.map((song) => (
           <Song
@@ -18,8 +15,7 @@ function SearchResults({ songs }) {
             album={song.album}
             duration={song.duration}
             cover={song.cover}
-            buttonText="Agregar a mi biblioteca"
-            onAction={() => dispatch(addSong(song))}
+            onAdd={() => onAddSong(song)}
           />
         ))}
       </div>

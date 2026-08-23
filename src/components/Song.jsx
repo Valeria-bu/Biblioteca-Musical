@@ -1,30 +1,21 @@
-import {
-  SongCard,
-  SongCover,
-  SongInfo,
-  SongTitle,
-  SongText,
-  ActionButton
-} from './Song.styles';
+import React from 'react';
 
-function Song({ title, artist, album, duration, cover, buttonText = 'Guardar', onAdd, onAction, disabled = false }) {
-  const handleClick = onAdd || onAction;
-
+function Song({ title, artist, album, duration, cover, buttonText = 'Guardar', onAction, disabled = false }) {
   return (
-    <SongCard>
-      <SongCover>{cover}</SongCover>
-      <SongInfo>
-        <SongTitle>{title}</SongTitle>
-        <SongText><strong>Artista:</strong> {artist}</SongText>
-        <SongText><strong>Álbum:</strong> {album}</SongText>
-        <SongText><strong>Duración:</strong> {duration}</SongText>
-      </SongInfo>
-      {handleClick && (
-        <ActionButton onClick={handleClick} disabled={disabled}>
+    <article className="song-card">
+      <div className="song-cover">{cover}</div>
+      <div className="song-info">
+        <h2>{title}</h2>
+        <p><strong>Artista:</strong> {artist}</p>
+        <p><strong>Álbum:</strong> {album}</p>
+        <p><strong>Duración:</strong> {duration}</p>
+      </div>
+      {onAction && (
+        <button className="save-btn" onClick={onAction} disabled={disabled}>
           {buttonText}
-        </ActionButton>
+        </button>
       )}
-    </SongCard>
+    </article>
   );
 }
 
