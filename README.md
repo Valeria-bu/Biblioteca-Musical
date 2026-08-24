@@ -1,106 +1,53 @@
+@"
 # Biblioteca Musical
 
-Una aplicación web para explorar música, buscar artistas y álbumes, y guardar tus favoritos en una biblioteca personal.
+Aplicación web desarrollada con React y Vite para gestionar una biblioteca musical. La aplicación permite visualizar canciones y administrar una biblioteca personalizada utilizando Redux para manejar el estado global.
 
-## Descripción
+## Características
 
-Biblioteca Musical es una app desarrollada con React y Vite que permite buscar contenido musical, consultar resultados desde una API externa y administrar una biblioteca personalizada con Redux Toolkit. La aplicación está pensada para practicar la gestión del estado global con slices, thunks asíncronos y configuración moderna del store.
-
-## Funcionalidades
-
-- Búsqueda de artistas y álbumes.
-- Visualización de resultados con título, artista y álbum.
-- Agregado de elementos a la biblioteca personal.
-- Eliminación de elementos desde la biblioteca.
-- Manejo de estados de carga y error.
-- Navegación a detalles de álbum.
-- Diseño visual moderno con Styled Components.
+- Encabezado de la aplicación.
+- Visualización de canciones con título, artista, álbum y duración.
+- Búsqueda y visualización de resultados musicales.
+- Agregar canciones a la biblioteca personalizada.
+- Eliminar canciones de la biblioteca.
+- Gestión del estado global mediante Redux.
+- Componentes reutilizables de React.
+- Diseño visual adaptado a la aplicación.
 
 ## Tecnologías
 
 - React
 - Vite
 - JavaScript
-- Redux Toolkit
+- Redux
 - React Redux
 - Styled Components
 
-## Redux Toolkit
+## Redux
 
-La aplicación implementa Redux Toolkit como solución para manejar el estado global de manera más limpia y escalable.
+La aplicación utiliza Redux para administrar el estado global de la biblioteca musical.
 
-### Conceptos utilizados
+La estructura de Redux se encuentra dentro de:
 
-- `configureStore`
-- `createSlice`
-- `createAsyncThunk`
+src/redux/
 
-### Estructura del estado
+Incluye:
 
-La lógica se organiza en slices dentro de `src/redux/slices`:
+- store.js: configura el store global de Redux.
+- libraryReducer.js: administra el estado de la biblioteca.
+- libraryActions.js: contiene las acciones para agregar y eliminar canciones.
 
-- `librarySlice.js`: maneja la biblioteca del usuario.
-- `searchSlice.js`: maneja la búsqueda, resultados, `loading` y `error`.
+### Acciones disponibles
 
-### Búsqueda asincrónica
+- ADD_SONG: agrega una canción a la biblioteca.
+- REMOVE_SONG: elimina una canción mediante su ID.
 
-La búsqueda se realiza mediante The Audio DB, y se gestionan los estados de la petición con `createAsyncThunk`:
-
-- `pending`: activa `loading` y limpia errores.
-- `fulfilled`: guarda los resultados obtenidos.
-- `rejected`: guarda el mensaje de error.
+Los componentes SearchResults y Library utilizan useDispatch y useSelector de React Redux para interactuar con el estado global.
 
 ## Instalación
 
-1. Clona el repositorio.
-2. Instala dependencias:
+1. Clona este repositorio.
+2. Instala las dependencias:
 
 ```bash
 npm install
-```
-
-3. Ejecuta la aplicación:
-
-```bash
-npm run dev
-```
-
-4. Abre la URL local que te muestre Vite en tu navegador.
-
-## Estructura del proyecto
-
-```bash
-src/
-├── components/
-│   ├── Header.jsx
-│   ├── Library.jsx
-│   ├── SearchBar.jsx
-│   ├── SearchResults.jsx
-│   ├── Song.jsx
-│   └── SongDetail.jsx
-├── redux/
-│   ├── slices/
-│   │   ├── librarySlice.js
-│   │   └── searchSlice.js
-│   └── store.js
-├── App.jsx
-├── main.jsx
-├── theme.js
-├── globalStyles.js
-├── hooks/
-│   └── useFetch.js
-└── index.css
-```
-
-## ¿Cómo funciona?
-
-1. El usuario escribe un nombre en el buscador.
-2. La app despacha una acción con `createAsyncThunk`.
-3. La API responde con resultados musicales.
-4. El estado global guarda los datos en `results`.
-5. La app muestra estados de `loading` y `error` según el caso.
-6. El usuario puede agregar o quitar elementos de su biblioteca personal.
-
-## Repositorio
-
-https://github.com/Valeria-bu/Biblioteca-Musical.git
