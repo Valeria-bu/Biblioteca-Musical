@@ -1,11 +1,14 @@
 import React from 'react';
+import { HeaderWrapper, Title, Subtitle } from './Header.styles';
 
-function Header({ title }) {
+function Header({ title = 'Biblioteca Musical' }) {
   return (
-    <header className="app-header">
-      <h1>{title}</h1>
-      <p>Tu playlist con la mezcla perfecta de romance, corridos y vibes modernas.</p>
-    </header>
+    <HeaderWrapper>
+      <div>
+        <Title>{title}</Title>
+        <Subtitle>Tu playlist con la mezcla perfecta de romance, corridos y vibes modernas.</Subtitle>
+      </div>
+    </HeaderWrapper>
   );
 }
 

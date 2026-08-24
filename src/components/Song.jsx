@@ -1,21 +1,41 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import {
+  SongCard,
+  SongCover,
+  SongInfo,
+  SongTitle,
+  SongText,
+  ActionButton,
+  SongLink,
+  ResultBadge
+} from './Song.styles';
 
-function Song({ title, artist, album, duration, cover, buttonText = 'Guardar', onAction, disabled = false }) {
+function Song({ id, title, artist, album, duration, cover, buttonText = 'Guardar', onAction, disabled = false, type = 'album' }) {
+  const isArtist = type === 'artist';
+
   return (
-    <article className="song-card">
-      <div className="song-cover">{cover}</div>
-      <div className="song-info">
-        <h2>{title}</h2>
-        <p><strong>Artista:</strong> {artist}</p>
-        <p><strong>Álbum:</strong> {album}</p>
-        <p><strong>Duración:</strong> {duration}</p>
-      </div>
+    <SongCard $isArtist={isArtist}>
+      <SongCover $isArtist={isArtist}>{cover || (isArtist ? '🎤' : '🎵')}</SongCover>
+      <SongInfo>
+        {id && !isArtist ? (
+          <SongLink to={`/album/${id}`}>
+            <SongTitle>{title}</SongTitle>
+          </SongLink>
+        ) : (
+          <SongTitle>{title}</SongTitle>
+        )}
+        <ResultBadge $isArtist={isArtist}>{isArtist ? 'Artista' : 'Álbum'}</ResultBadge>
+        <SongText><strong>Artista:</strong> {artist}</SongText>
+        <SongText><strong>{isArtist ? 'Género' : 'Álbum'}:</strong> {album}</SongText>
+        {duration && <SongText><strong>Duración:</strong> {duration}</SongText>}
+      </SongInfo>
       {onAction && (
-        <button className="save-btn" onClick={onAction} disabled={disabled}>
+        <ActionButton onClick={onAction} disabled={disabled}>
           {buttonText}
-        </button>
+        </ActionButton>
       )}
-    </article>
+    </SongCard>
   );
 }
 
